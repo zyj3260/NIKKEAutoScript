@@ -323,9 +323,18 @@
     },
     "PackageName": {
       "name": "游戏客户端",
-      "help": "模拟器上装有多个游戏客户端时，需要手动选择客户端",
+      "help": "模拟器上装有多个游戏客户端时，需要手动选择客户端。国服是安卓客户端 com.tencent.nikke（腾讯应用宝《胜利女神：新的希望》）。此项不影响 PC 客户端。",
       "com.proximabeta.nikke": "国际",
-      "com.gamamobi.nikke": "港澳台"
+      "com.gamamobi.nikke": "港澳台",
+      "com.tencent.nikke": "国服"
+    },
+    "PackageOverride": {
+      "name": "包名覆盖",
+      "help": "留空则使用上面的游戏客户端。国服渠道包（TapTap、Bilibili 等）如果包名不是 com.tencent.nikke，把设备上实际的包名填在这里。填写后优先启动这个包；包名不在已知列表里时按国服处理。国际服和港澳台请留空。"
+    },
+    "ActivityOverride": {
+      "name": "启动 Activity 覆盖",
+      "help": "留空则按原有方式启动：已登记的国际服 Activity，或 monkey / 系统解析到的启动 Activity。国服启动 Activity 未核实。只有启动失败时，才把 adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER <包名> 的结果填在这里。"
     },
     "ScreenshotMethod": {
       "name": "截图方案",

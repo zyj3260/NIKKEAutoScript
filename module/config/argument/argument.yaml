@@ -45,7 +45,13 @@ Emulator:
     valuetype: str
   PackageName:
     value: com.proximabeta.nikke
-    option: [ com.proximabeta.nikke, com.gamamobi.nikke, ]
+    option: [ com.proximabeta.nikke, com.gamamobi.nikke, com.tencent.nikke, ]
+  # 渠道包包名未核实。非空时覆盖 PackageName；未知包名按国服启动。
+  PackageOverride:
+    value: ''
+  # 国服启动 Activity 未核实。非空时传给 am start，失败则回退 monkey。
+  ActivityOverride:
+    value: ''
   ScreenshotMethod:
     value: DroidCast
     option: [ DroidCast, ADB ]

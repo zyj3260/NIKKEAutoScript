@@ -340,9 +340,10 @@ class ConfigGenerator:
         update('template-docker-cn', docker, cn)
 
     def insert_package(self):
-        option = deep_get(self.argument, keys='Emulator.PackageName.option')
-        option += list(VALID_PACKAGE.keys())
-        option += list(VALID_CHANNEL_PACKAGE.keys())
+        option = list(deep_get(self.argument, keys='Emulator.PackageName.option') or [])
+        for package in list(VALID_PACKAGE.keys()) + list(VALID_CHANNEL_PACKAGE.keys()):
+            if package not in option:
+                option.append(package)
         deep_set(self.argument, keys='Emulator.PackageName.option', value=option)
         deep_set(self.args, keys='Emulator.Emulator.PackageName.option', value=option)
 

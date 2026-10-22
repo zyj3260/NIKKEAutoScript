@@ -8,11 +8,11 @@ body:
       value: |
         提交前请先阅读 [FAQ](https://github.com/megumiss/NIKKEAutoScript/wiki/Frequently-Asked-Questions.zh-CN) 和 [报错自查](https://github.com/megumiss/NIKKEAutoScript/wiki/Error-Handling.zh-CN)，并搜索已有 issue，避免重复提交。
         缺少日志和截图的反馈通常无法定位问题，请尽量填写完整。
-        **注意：脚本仅支持国际服，不支持国服。**
+        **注意：PC 端仍不支持国服。安卓端可选国服客户端，但没有单独的国服界面模板。**
 
         Before opening an issue, please read the [FAQ](https://github.com/megumiss/NIKKEAutoScript/wiki/Frequently-Asked-Questions) and [Error Handling](https://github.com/megumiss/NIKKEAutoScript/wiki/Error-Handling), and search existing issues.
         Reports without logs or screenshots are usually impossible to diagnose.
-        **Note: only the Global server is supported.**
+        **Note: the PC client still does not support the Chinese server. The Android client can select it, but CN-specific UI templates are not included.**
 
   - type: textarea
     id: description

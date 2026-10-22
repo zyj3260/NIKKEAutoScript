@@ -22,11 +22,13 @@ class AppControl(Uiautomator2):
 
     def app_start(self):
         method = self.effective_control_method
+        # 只有用户填写了 ActivityOverride 时才传入。空值保持原来的 monkey / 已登记 Activity 路径。
+        activity_name = getattr(self, 'activity_name', None) or None
         logger.info(f'App start: {self.package}')
         if method in AppControl._app_u2_family:
-            self.app_start_uiautomator2()
+            self.app_start_uiautomator2(activity_name=activity_name)
         elif method in AppControl._app_adb_family:
-            self.app_start_adb()
+            self.app_start_adb(activity_name=activity_name)
         else:
             raise RequestHumanTakeover
 

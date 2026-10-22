@@ -6,7 +6,7 @@ blablalink 一键登录获取 Cookie
    machine check），所以用无头浏览器驱动真实登录页完成登录。
    浏览器按 系统 Chrome → 系统 Edge → 自动下载内置 Chromium 的回退链启动。
 2. 页面流程：接受 OneTrust cookie 提示 → Sign In → 港澳台账号（按实例客户端
-   设置：PC 端 PCClient.PCClientInfo.Client / 模拟器 Emulator.PackageName）
+   设置：PC 端 PCClient.PCClientInfo.Client / 模拟器包名，含 PackageOverride）
    在登录弹窗的区域下拉框点选 HK/MC/TW，首次登录没有 XCommonParams 也有区服
    依据，切换后登录 SDK 重新初始化（login_pop_config 重新打印）→ 填账号密码 →
    Log in。腾讯验证码先走无感校验（可能直接通过）；返回 ret=2170 时站点 SDK

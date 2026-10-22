@@ -6,7 +6,7 @@
 
 # NIKKEAutoScript
 
-GODDESS OF VICTORY: NIKKE automatic daily script, supporting PC / Android phones / ARM emulators, **except the Chinese server (CN)**. Forked from [NIKKEAutoScript](https://github.com/takagisanmie/NIKKEAutoScript)
+GODDESS OF VICTORY: NIKKE automatic daily script, supporting PC / Android phones / ARM emulators. The Android client can target the Chinese server; the PC client still does not. Forked from [NIKKEAutoScript](https://github.com/takagisanmie/NIKKEAutoScript)
 
 **🌐 Official Website: [nkas.megumiss.top](https://nkas.megumiss.top)**
 

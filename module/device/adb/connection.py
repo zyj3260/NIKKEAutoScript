@@ -18,7 +18,14 @@ from module.base.timer import Timer
 from module.base.utils import ensure_time
 from module.config.deep import deep_get
 from module.config.language import set_language
-from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
+from module.config.server import (
+    VALID_CHANNEL_PACKAGE,
+    VALID_PACKAGE,
+    android_activity,
+    android_package,
+    android_server,
+    set_server,
+)
 from module.device.adb.connection_attr import ConnectionAttr
 from module.device.adb.env import IS_LINUX, IS_MACINTOSH, IS_WINDOWS
 from module.device.adb.method.pool import WORKER_POOL
@@ -135,12 +142,24 @@ class Connection(ConnectionAttr):
         logger.attr('AdbDevice', self.adb)
 
         # Package
-        self.package = self.config.Emulator_PackageName
-        if self.package == 'auto':
+        # PackageOverride 非空时不再走 auto：渠道包不在已知列表里，detect 会把它滤掉。
+        self.activity_name = android_activity(self.config) or None
+        if self.config.Emulator_PackageName == 'auto' and android_package(self.config) == 'auto':
             self.detect_package()
         else:
-            set_server(self.package)
+            self.package = android_package(self.config)
+            set_server(android_server(self.config))
         logger.attr('PackageName', self.package)
+        logger.attr('Server', android_server(self.config))
+        if self.activity_name:
+            logger.attr('ActivityOverride', self.activity_name)
+        if android_server(self.config) == 'cn':
+            logger.warning(
+                '国服 Android 客户端已启用。脚本没有单独的国服界面模板，识别继续使用当前游戏语言的资源；'
+                '登录、商店和活动弹窗若与国际服不一致，需要自行补充模板。PC 客户端不受此包名影响。'
+            )
+            if self.config.Client_Language != 'zh-CN':
+                logger.warning('国服客户端界面是简体中文，建议把游戏语言设为 zh-CN')
         self.language = self.config.Client_Language
         set_language(self.language)
         logger.attr('Language', self.language)

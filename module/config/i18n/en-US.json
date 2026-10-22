@@ -323,9 +323,18 @@
     },
     "PackageName": {
       "name": "Game Client",
-      "help": "If multiple game clients are installed on the emulator, select the correct one manually",
+      "help": "If multiple game clients are installed on the emulator, select the correct one manually. Chinese server is the Android client com.tencent.nikke (Tencent MyApp, 胜利女神：新的希望). This does not affect the PC client.",
       "com.proximabeta.nikke": "International",
-      "com.gamamobi.nikke": "Hong Kong/Taiwan"
+      "com.gamamobi.nikke": "Hong Kong/Taiwan",
+      "com.tencent.nikke": "Chinese server"
+    },
+    "PackageOverride": {
+      "name": "Package override",
+      "help": "Leave empty to use the game client selected above. If a Chinese-server store channel (TapTap, Bilibili, etc.) is not com.tencent.nikke, enter the package name installed on the device. A non-empty value is launched instead; an unknown package is treated as the Chinese server. Leave this empty for Global and HK/TW."
+    },
+    "ActivityOverride": {
+      "name": "Launcher activity override",
+      "help": "Leave empty to keep the existing start path: the registered Global activity, or monkey / the launcher activity resolved by the device. The Chinese-server launcher activity is not verified. Fill this only if launch fails, using the component from: adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER <package>."
     },
     "ScreenshotMethod": {
       "name": "Screenshot Method",

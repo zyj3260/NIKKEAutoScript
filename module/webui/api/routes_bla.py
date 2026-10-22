@@ -145,6 +145,11 @@ async def login_start(request: Request):
     # 区服按实例客户端设置推导（PC 端取 PCClientInfo.Client，模拟器取包名），
     # 首次登录没有 XCommonParams 也有依据
     server = server_from_client(config)
+    if server == 'cn':
+        return JSONResponse(
+            {'status': 'error', 'message': '国服客户端不使用 blablalink / LiPass。'},
+            status_code=400,
+        )
 
     session = BlaLoginSession(account=account, password=password, user_agent=user_agent,
                               language=language, server=server)

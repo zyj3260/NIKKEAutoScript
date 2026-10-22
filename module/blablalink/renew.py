@@ -11,7 +11,7 @@ blablalink Cookie 自动续期
    → intlSignIn（lipass token 换新 game_token）。
 3. Pass SDK 初始化需要的 env/appID 不写死：点开主页的 Sign In 触发站点登录 SDK
    初始化，从 console 的 login_pop_config 抓站点运行时配置；港澳台账号（按实例
-   客户端设置：PC 端 PCClientInfo.Client / 模拟器 Emulator.PackageName）先在
+   客户端设置：PC 端 PCClientInfo.Client / 模拟器包名，含 PackageOverride）先在
    登录弹窗的区域下拉框点选 HK/MC/TW，配置随切换重新打印。
    gameID 优先取现有 cookie 的 game_gameid，其次 login_pop_config，
    最后 XCommonParams 的 intl_game_id；channelID 取 cookie 的 game_channelid。
@@ -50,14 +50,15 @@ RET_TOKEN_INVALID = 11002
 def server_from_client(config_data) -> str:
     """
     实例的区服设置：PC 端（NKAS.Client.Platform=win）取 PCClient.PCClientInfo.Client，
-    adb 模拟器取 Emulator.Emulator.PackageName 经 to_server 转换。
-    返回 'intl' / 'tw' / 'hmt'（tw 与 hmt 同义，都是港澳台）。
+    adb 模拟器取包名（含 PackageOverride）经 android_server 转换。
+    返回 'intl' / 'tw' / 'hmt' / 'cn'（tw 与 hmt 同义，都是港澳台）。
+    PC 端原样返回客户端 id，不把 hmt 折成 intl。
     """
-    from module.config.server import to_server
-    from module.config.utils import deep_get
+    from module.config.server import android_server
+    from module.config.deep import deep_get
     if deep_get(config_data, 'NKAS.Client.Platform', 'win') == 'win':
         return deep_get(config_data, 'PCClient.PCClientInfo.Client', '')
-    return to_server(deep_get(config_data, 'Emulator.Emulator.PackageName', ''))
+    return android_server(config_data)
 
 
 def select_login_region(page, server: str) -> bool:
@@ -71,6 +72,8 @@ def select_login_region(page, server: str) -> bool:
     """
     if not server:
         return False
+    if server == 'cn':
+        raise RenewError('国服账号不使用 blablalink / LiPass，无法在此登录或续期')
     want_hmt = server in ('tw', 'hmt')
     # 站点默认区域是国际服，intl 无需任何操作
     if not want_hmt:
@@ -250,11 +253,14 @@ def renew_cookie(cookie: str, account: str = '', user_agent: str = '',
         user_agent: 浏览器 UA
         game_id: gameID 备用来源（XCommonParams 的 intl_game_id），
             优先取 cookie 的 game_gameid 与站点 login_pop_config
-        server: NKAS 区服（intl/tw/hmt），港澳台需要在登录弹窗切换区域
+        server: NKAS 区服（intl/tw/hmt/cn）。港澳台需要在登录弹窗切换区域；国服不走此站点。
 
     Returns:
         (新 cookie 字符串, 过期时间戳)；续期失败返回 None
     """
+    if server == 'cn':
+        logger.error('国服账号不使用 blablalink / LiPass，无法在此续期')
+        return None
     creds = _parse_cookie(cookie)
     game_openid = creds.get('game_openid', '')
     game_token = creds.get('game_token', '')
