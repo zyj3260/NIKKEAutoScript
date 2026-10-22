@@ -1,4 +1,5 @@
 from module.base.decorator import run_once
+from module.config.server import android_server
 from module.base.timer import Timer
 from module.exception import GameNotRunningError, GamePageUnknownError, GameStart
 from module.handler.assets import *
@@ -151,10 +152,7 @@ class UI(InfoHandler):
             logger.attr('CLENT_PLATFORM', self.config.Client_Platform)
             logger.attr('EMULATOR_SCREENSHOT_METHOD', self.config.Emulator_ScreenshotMethod)
             logger.attr('EMULATOR_CONTROL_METHOD', self.config.Emulator_ControlMethod)
-            logger.attr(
-                'SERVER',
-                'intl' if 'proximabeta' in self.config.Emulator_PackageName else 'tw',
-            )
+            logger.attr('SERVER', android_server(self.config))
             logger.attr('LANGUAGE', self.config.Client_Language)
             logger.warning('Supported page: Any page with a "HOME" button on the bottom-left')
         if self.config.Client_Platform == 'win':

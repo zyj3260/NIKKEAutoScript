@@ -124,9 +124,16 @@
         "option": [
           "com.proximabeta.nikke",
           "com.gamamobi.nikke",
-          "com.proximabeta.nikke",
-          "com.gamamobi.nikke"
+          "com.tencent.nikke"
         ]
+      },
+      "PackageOverride": {
+        "type": "input",
+        "value": ""
+      },
+      "ActivityOverride": {
+        "type": "input",
+        "value": ""
       },
       "ScreenshotMethod": {
         "type": "select",

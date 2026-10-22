@@ -161,13 +161,27 @@ class Adb(Connection):
             return ret
         raise OSError("Couldn't get focused app")
 
+    def _launch_component(self, package_name, activity_name):
+        if not activity_name:
+            return ''
+        activity_name = str(activity_name).strip()
+        if not activity_name:
+            return ''
+        if '/' in activity_name:
+            return activity_name
+        return f'{package_name}/{activity_name}'
+
     @retry
-    def app_start_adb(self, package_name=None):
+    def app_start_adb(self, package_name=None, activity_name=None):
         """
         通过 monkey 启动应用，无需知道 activity 名。
+        activity_name 仅在用户填写 ActivityOverride 时传入；失败后仍回退 monkey。
         """
         if not package_name:
             package_name = self.package
+        if not activity_name:
+            activity_name = getattr(self, 'activity_name', None) or None
+        component = self._launch_component(package_name, activity_name)
         display_id = getattr(self, '_virtual_display_id', None)
         if display_id is not None:
             try:
@@ -179,18 +193,30 @@ class Adb(Connection):
                 logger.debug(f'Virtual display START fallback: {response!r}')
             except Exception as e:
                 logger.debug(f'Virtual display START command unavailable: {e}')
-            resolved = self.adb_shell([
-                'cmd', 'package', 'resolve-activity', '--brief',
-                '-a', 'android.intent.action.MAIN',
-                '-c', 'android.intent.category.LAUNCHER', package_name,
-            ])
-            component = next((line.strip() for line in reversed(resolved.splitlines()) if '/' in line), '')
+            if component:
+                result = self.adb_shell(['am', 'start', '--display', display_id, '-n', component])
+                if 'Error:' not in result and 'Exception' not in result:
+                    return
+                logger.warning(f'Activity override failed on virtual display, resolving launcher: {result}')
+                component = ''
+            if not component:
+                resolved = self.adb_shell([
+                    'cmd', 'package', 'resolve-activity', '--brief',
+                    '-a', 'android.intent.action.MAIN',
+                    '-c', 'android.intent.category.LAUNCHER', package_name,
+                ])
+                component = next((line.strip() for line in reversed(resolved.splitlines()) if '/' in line), '')
             if not component:
                 raise PackageNotInstalled(package_name)
             result = self.adb_shell(['am', 'start', '--display', display_id, '-n', component])
             if 'Error:' in result or 'Exception' in result:
                 raise OSError(result)
             return
+        if component:
+            result = self.adb_shell(['am', 'start', '-n', component])
+            if 'Error:' not in result and 'Exception' not in result:
+                return
+            logger.warning(f'Activity override failed, fallback to monkey: {result}')
         result = self.adb_shell([
             'monkey', '-p', package_name, '-c',
             'android.intent.category.LAUNCHER', '--pct-syskeys', '0', '1'

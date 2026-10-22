@@ -6,7 +6,7 @@
 
 # NIKKEAutoScript
 
-『勝利の女神：NIKKE』の自動デイリースクリプトです。PC／Android実機／ARMエミュレーターをサポートしています（**中国本土版を除く**）。[NIKKEAutoScript](https://github.com/takagisanmie/NIKKEAutoScript) からフォークされたプロジェクトです。
+『勝利の女神：NIKKE』の自動デイリースクリプトです。PC／Android実機／ARMエミュレーターをサポートしています。Android では中国本土版を選択できます。PC 版の中国本土サーバーは未対応です。[NIKKEAutoScript](https://github.com/takagisanmie/NIKKEAutoScript) からフォークされたプロジェクトです。
 
 **🌐 公式サイト: [nkas.megumiss.top](https://nkas.megumiss.top)**
 

@@ -26,7 +26,9 @@ class GeneratedConfig:
 
     # Group `Emulator`
     Emulator_Serial = 'auto'
-    Emulator_PackageName = 'com.proximabeta.nikke'  # com.proximabeta.nikke, com.gamamobi.nikke, com.proximabeta.nikke, com.gamamobi.nikke
+    Emulator_PackageName = 'com.proximabeta.nikke'  # com.proximabeta.nikke, com.gamamobi.nikke, com.tencent.nikke
+    Emulator_PackageOverride = None
+    Emulator_ActivityOverride = None
     Emulator_ScreenshotMethod = 'DroidCast'  # DroidCast, ADB
     Emulator_ControlMethod = 'minitouch'  # minitouch, uiautomator2, ADB, MaaTouch
     Emulator_AdbRestart = False

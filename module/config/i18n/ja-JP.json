@@ -323,9 +323,18 @@
     },
     "PackageName": {
       "name": "ゲームクライアント",
-      "help": "エミュレーターに複数のゲームクライアントがインストールされている場合は、手動でクライアントを選択する必要があります",
+      "help": "エミュレーターに複数のゲームクライアントがインストールされている場合は、手動でクライアントを選択する必要があります。中国本土版は Android クライアント com.tencent.nikke（腾讯应用宝の《胜利女神：新的希望》）です。PC クライアントには影響しません。",
       "com.proximabeta.nikke": "インターナショナル",
-      "com.gamamobi.nikke": "香港・マカオ・台湾"
+      "com.gamamobi.nikke": "香港・マカオ・台湾",
+      "com.tencent.nikke": "中国本土版"
+    },
+    "PackageOverride": {
+      "name": "パッケージ名の上書き",
+      "help": "空欄のときは上のゲームクライアントを使います。中国本土版のストア渠道（TapTap、Bilibili など）のパッケージ名が com.tencent.nikke でない場合、端末に入っているパッケージ名を入力します。入力するとそちらを起動し、既知の一覧にないパッケージ名は中国本土版として扱います。インターナショナルと香港・マカオ・台湾では空欄にしてください。"
+    },
+    "ActivityOverride": {
+      "name": "起動 Activity の上書き",
+      "help": "空欄のときは従来どおり起動します。登録済みのインターナショナル版 Activity、または monkey / 端末が解決した起動 Activity です。中国本土版の起動 Activity は未確認です。起動に失敗したときだけ、adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER <パッケージ名> の結果を入力してください。"
     },
     "ScreenshotMethod": {
       "name": "スクリーンショット方法",

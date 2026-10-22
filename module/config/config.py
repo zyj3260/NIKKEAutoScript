@@ -7,6 +7,7 @@ import time
 from module.base.filter import Filter
 from module.base.utils import ensure_time
 from module.config.config_generated import GeneratedConfig
+from module.config.server import android_server
 from module.config.config_updater import ConfigUpdater
 from module.config.delay import next_month_day, next_weekday
 from module.config.manual_config import ManualConfig
@@ -122,8 +123,8 @@ class NikkeConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher):
             self.task = task
             self.save()
 
-        # logger.attr("Server", self.SERVER)
-        logger.attr("Server", 'intl' if 'proximabeta' in self.Emulator_PackageName else 'tw')
+        # 安卓包名决定区服。未设置包名覆盖时，国际服 / 港澳台与原来的映射一致。
+        logger.attr("Server", android_server(self))
 
     def init_task(self, task=None):
         if self.is_template_config:
